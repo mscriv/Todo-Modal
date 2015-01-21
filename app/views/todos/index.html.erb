@@ -1,0 +1,50 @@
+<h1>Listing todos</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @todos.each do |todo| %>
+      <tr>
+        <td><%= todo.title %></td>
+       <td><% if todo.notes? %>
+            <button class="btn btn-link" data-toggle="modal" data-target="#todo-<%= todo.id %>-notes">
+              View notes
+            </button>
+
+            <div class="modal fade" id="todo-<%= todo.id %>-notes" tabindex="-1" role="dialog" aria-labelledby="todo-<%= todo.id %>-label" aria-hidden="true">
+              <div class="modal-dialog">
+               <div class="modal-content">
+                <div class="modal-header">
+                 <h4 class="modal-title" id="todo-<%= todo.id %>-label">Notes</h4>
+                  </div>
+                 <div class="modal-body">
+                   <%= todo.notes %>
+                 </div>
+                 <div class="modal-footer">
+                   <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                 </div>
+               </div>
+              </div>
+            </div>
+           <button type="button" class="btn btn-link has-popover" data-toggle="popover" title="View Notes" data-content="<%= todo.notes %>">View notes (popover)</button>
+      <% end %>
+        </td>
+        <td><%= link_to 'Show', todo, class: 'btn btn-primary btn-xs' %></td>
+        <td><%= link_to 'Edit', edit_todo_path(todo), class: 'btn btn-info btn-xs' %></td>
+        <td><%= link_to 'Destroy', todo, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-xs' %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to  new_todo_path, class: 'btn btn-success btn-sm' do %>
+  <i class="glyphicon glyphicon-plus"></i> New Todo
+  <% end %>
